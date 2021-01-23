@@ -1,16 +1,20 @@
 const arr = [1, 5, 7, 66, 45, 3, 89]
+const arrSort = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
 const str1 = 'aaabbcccccd'
 const str2 = 'hello world'
 
 /*###### Max number in arr ######*/
 /*1*/
 function max(arr) {
-  let max = 0
-  for (let i = 0; i < arr.length; i++) {
+  let max = arr[0]
+  let length = arr.length
+
+  for (let i = 0; i < length; i++) {
     if (arr[i] > max) {
       max = arr[i]
     }
   }
+
   return max
 }
 //console.log(max(arr))
@@ -45,22 +49,6 @@ function strCompress(str) {
   return result
 }
 //console.log(strCompress(str1))
-
-/*###### Bubble sort ######*/
-function bubbleSort(arr) {
-  for (let i = 0; i < arr.length - 1; i++) {
-    for (let j = 0; j < arr.length; j++) {
-      if (arr[j - 1] > arr[j]) {
-        let swap = arr[j - 1]
-        arr[j - 1] = arr[j]
-        arr[j] = swap
-      }
-    }
-  }
-
-  return arr
-}
-//console.log(bubbleSort(arr))
 
 /*###### decToBinary ######*/
 function decToBinary(num) {
@@ -167,7 +155,7 @@ const fibonacci2 = (num) => {
     return num
   }
   // Рекурсия здесь
-  return fibonacci(num - 1) + fibonacci(num - 2)
+  return fibonacci2(num - 1) + fibonacci2(num - 2)
 }
 
 const fibonacci3 = (num) => {
@@ -250,3 +238,115 @@ function anagram(first, second) {
 //     i
 //   )
 // }
+
+/*###### binarySearch  ######*/
+function binarySearch(arr, item) {
+  // O(log n)
+  let start = 0
+  let end = arr.length
+  let middle
+  let found = false
+  let position = -1
+  while (found === false && start <= end) {
+    middle = Math.floor((start + end) / 2)
+    if (arr[middle] === item) {
+      found = true
+      position = middle
+    }
+
+    if (item < arr[middle]) {
+      end = middle - 1
+    } else {
+      start = middle + 1
+    }
+  }
+
+  return position
+}
+
+//console.log(binarySearch(arrSort, 5))
+
+/*###### Selection sort  ######*/
+function selectionSort(arr) {
+  for (let i = 0; i < arr.length - 1; i++) {
+    let minIndex = i
+    for (let j = i + 1; j < arr.length; j++) {
+      if (arr[j] < arr[minIndex]) {
+        minIndex = j
+      }
+    }
+
+    let swap = arr[i]
+    arr[i] = arr[minIndex]
+    arr[minIndex] = swap
+  }
+  return arr
+}
+
+//console.log(selectionSort(arr))
+
+/*###### Quick Sort ######*/
+function quickSort(arr) {
+  if (arr.length < 2) return arr
+  let left = []
+  let right = []
+  let p = arr[0]
+  for (let i = 1; i < arr.length; i++) {
+    if (arr[i] < p) {
+      left.push(arr[i])
+    } else {
+      right.push(arr[i])
+    }
+  }
+
+  return quickSort(left).concat(p, quickSort(right))
+}
+
+//console.log("quickSort", quickSort([6, 34, 8, 1, 41, 59, 764, 3]));
+
+/*###### Bubble sort ######*/
+function bubbleSort(arr) {
+  for (let i = 0; i < arr.length - 1; i++) {
+    for (let j = 0; j < arr.length; j++) {
+      if (arr[j - 1] > arr[j]) {
+        let swap = arr[j - 1]
+        arr[j - 1] = arr[j]
+        arr[j] = swap
+      }
+    }
+  }
+
+  return arr
+}
+//console.log(bubbleSort(arr))
+
+/*###### Merge Sort ######*/
+function merge(left, right) {
+  //Вспомогательная функция.
+  let result = []
+
+  while (left.length > 0 && right.length > 0) {
+    if (left[0] < right[0]) {
+      result.push(left.shift())
+    } else {
+      result.push(right.shift())
+    }
+  }
+
+  return result.concat(left, right)
+}
+
+function mergeSort(array) {
+  //Функция сортировки слиянияем.
+  if (array.length < 2) {
+    return array
+  }
+
+  let middle = Math.floor(array.length / 2)
+  let left = array.slice(0, middle)
+  let right = array.slice(middle)
+
+  return merge(mergeSort(left), mergeSort(right))
+}
+
+console.log('mergeSort', mergeSort([6, 34, 8, 1, 41, 59, 764, 3]))
