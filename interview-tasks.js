@@ -349,4 +349,227 @@ function mergeSort(array) {
   return merge(mergeSort(left), mergeSort(right))
 }
 
-console.log('mergeSort', mergeSort([6, 34, 8, 1, 41, 59, 764, 3]))
+//console.log('mergeSort', mergeSort([6, 34, 8, 1, 41, 59, 764, 3]))
+
+// Benary Search Tree
+function workWithBST() {
+  // Вспомогательный класс
+  class Node {
+    constructor(value) {
+      this.value = value // значение текущего узла
+      this.parent = null // ссылка на родителя
+      this.left = null // ссылка на левого потомка
+      this.right = null // ссылка на правого потомка
+    }
+  }
+
+  class BinarySearchTree {
+    constructor() {
+      this.root = null // корень никуда не ссылается
+    }
+
+    add(value) {
+      this.root = addWithin(this.root, value)
+
+      function addWithin(node, value) {
+        if (!node) {
+          return new Node(value)
+        }
+
+        if (node.value === value) {
+          return node
+        }
+
+        if (value < node.value) {
+          node.left = addWithin(node.left, value)
+        } else {
+          node.right = addWithin(node.right, value)
+        }
+
+        return node // вернем наш узел который мы добавили
+      }
+    }
+
+    has(value) {
+      return searchWithin(this.root, value) // начинаем поиск с корня дерева
+
+      function searchWithin(node, value) {
+        if (!node) {
+          return false
+        }
+
+        if (node.value === value) {
+          return true
+        }
+
+        return value < node.value
+          ? searchWithin(node.left, value)
+          : searchWithin(node.right, value)
+      }
+    }
+
+    remove(value) {
+      this.root = removeNode(this.root, value)
+
+      function removeNode(node, value) {
+        if (!node) {
+          // если нет поддеревьев
+          return null
+        }
+
+        if (value < node.left) {
+          node.left = removeNode(node.left, value) // иди удали влево
+          return node
+        } else if (node.value < value) {
+          node.right = removeNode(node.right, value) // иди удали  вправо
+          return node
+        } else {
+          // равно node
+          if (!node.left && !node.right) {
+            // у текущего узла нет потомков
+            return null
+          }
+
+          if (!node.left) {
+            node = node.right // если нету левого то мы ссылаемся на прового потомка
+            return node
+          }
+
+          if (!node.right) {
+            node = node.left
+            return node
+          }
+
+          // если есть оба потомка то мы находим миниму на правом поддереве
+
+          let minFromRight = node.right
+          while (minFromRight.left !== null) {
+            // идем до конца влево, пока кто то есть слева
+            minFromRight = minFromRight.left
+          }
+
+          node.value = minFromRight.value
+
+          node.right = removeNode(node.right, minFromRight.value)
+
+          return node
+        }
+      }
+    }
+
+    min() {
+      if (!this.root) {
+        return null
+      }
+
+      // идем до конца влево
+      let node = this.root
+      while (node.left) {
+        node = node.left
+      }
+
+      return node.value // возвращаем листок
+    }
+
+    max() {
+      if (!this.root) {
+        return null
+      }
+
+      // идем до конца впра во
+      let node = this.root
+      while (node.right) {
+        node = node.right
+      }
+
+      return node.value // возвращаем листок
+    }
+  }
+
+  function addItem() {
+    console.log('\nAdd Item')
+    console.log('add 13, 15, 14, 9, 20, 19, 21, 6, 11')
+
+    bst.add(13)
+    bst.add(15)
+    bst.add(14)
+    bst.add(9)
+    bst.add(20)
+    bst.add(19)
+    bst.add(21)
+    bst.add(6)
+    bst.add(11)
+  }
+
+  function getItem() {
+    console.log('\nGet Item')
+
+    console.log('has 10', bst.has(10))
+    console.log('has 15', bst.has(15))
+    console.log('\n', bst)
+
+    console.log('\nLeft Traverse:')
+    bst.leftTraverse((val) => console.log(val))
+
+    console.log('\nRight Traverse:')
+    bst.rightTraverse((val) => console.log(val))
+
+    console.log('min:', bst.min())
+    console.log('max:', bst.max())
+  }
+
+  function removeItem() {
+    console.log('\nRemove Item')
+
+    bst.remove(15)
+    console.log('remove 15')
+    console.log(bst)
+
+    console.log('\nLeft Traverse:')
+    bst.leftTraverse((val) => console.log(val))
+  }
+
+  console.log('\n\n---Binary Search Tree---')
+  const bst = new BinarySearchTree()
+
+  addItem()
+  getItem()
+  removeItem()
+}
+
+// Own flat arr function
+const arrflat = [2, 2, 5, [5, [5, [6, [5, 6, 7]]], 7]]
+
+const flatArr = (arr) => {
+  return arr.reduce((acc, el) => {
+    return acc.concat(Array.isArray(el) ? flatArr(el) : el)
+  }, [])
+}
+
+console.log(flatArr(arrflat))
+
+// на знание event loop
+console.log('script start')
+
+setTimeout(function () {
+  console.log('setTimeout')
+}, 0)
+
+Promise.resolve()
+  .then(function () {
+    console.log('promise1')
+  })
+  .then(function () {
+    console.log('promise2')
+  })
+
+console.log('script end')
+
+// Own map arr function
+Array.prototype.mymap = function (callback) {
+  const resultArray = []
+  for (let index = 0; index < this.length; index++) {
+    resultArray.push(callback(this[index], index, this))
+  }
+  return resultArray
+}
