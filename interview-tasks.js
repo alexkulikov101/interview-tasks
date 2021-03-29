@@ -105,15 +105,6 @@ function palindrome2(str) {
 }
 //console.log(checkPalindrom('dovod'))
 
-/*###### Полифилл для Object.create() ######*/
-if (!Object.create) {
-  Object.create = function (o) {
-    function F() {}
-    F.prototype = o
-    return new F()
-  }
-}
-
 /*###### fizzBuzz  ######*/
 const fizzBuzz = (num) => {
   for (let i = 1; i <= num; i++) {
@@ -176,26 +167,14 @@ function sum(a) {
   let res = a
   function f(b) {
     res += b
-    //console.log(res)
+    console.log(res)
     return f
   }
   // console.log(res)
   return f
 }
-sum(1)(2)(3)
-
-/*###### Polyffil Bind  ######*/
-
-function bind(cb, context) {
-  return function () {
-    return cb.apply(context, arguments)
-  }
-}
-function fn(a, b) {
-  console.log(a, b, this)
-}
-var magicFn = bind(fn, {})
-//magicFn(2, 3)
+//sum(1)(2)(3)(4)(5)
+/*#############################*/
 
 /*###### Anagram  ######*/
 function anagram(first, second) {
@@ -206,38 +185,6 @@ function anagram(first, second) {
 }
 
 //console.log(anagram('friend', 'finder'))
-
-/*###### Цикл for и SetTimeOut  ######*/
-// for (var i = 0; i < 3; i++) {
-//   setTimeout(() => {
-//     console.log(i)
-//   }, 100)
-// }
-
-// for (let i = 0; i < 3; i++) {
-//   setTimeout(() => {
-//     console.log(i)
-//   }, 100)
-// }
-
-// for (var i = 0; i < 3; i++) {
-//   ;(function (i) {
-//     setTimeout(() => {
-//       console.log(i)
-//     }, 100)
-//   })(i)
-// }
-
-// Можно передать аргументы которые будут прокинуты в качестве аргументов callback функции
-// for (var i = 0; i < 3; i++) {
-//   setTimeout(
-//     (i) => {
-//       console.log(i)
-//     },
-//     100,
-//     i
-//   )
-// }
 
 /*###### binarySearch  ######*/
 function binarySearch(arr, item) {
@@ -266,7 +213,7 @@ function binarySearch(arr, item) {
 
 //console.log(binarySearch(arrSort, 5))
 
-/*###### Selection sort  ######*/
+/*###### Selection sort / Сортировка выбором  ######*/
 function selectionSort(arr) {
   for (let i = 0; i < arr.length - 1; i++) {
     let minIndex = i
@@ -476,7 +423,7 @@ function workWithBST() {
         return null
       }
 
-      // идем до конца впра во
+      // идем до конца вправо
       let node = this.root
       while (node.right) {
         node = node.right
@@ -546,30 +493,135 @@ const flatArr = (arr) => {
   }, [])
 }
 
-console.log(flatArr(arrflat))
+//console.log(flatArr(arrflat))
 
 // на знание event loop
-console.log('script start')
+// console.log('script start')
 
-setTimeout(function () {
-  console.log('setTimeout')
-}, 0)
+// setTimeout(function () {
+//   console.log('setTimeout')
+// }, 0)
 
-Promise.resolve()
-  .then(function () {
-    console.log('promise1')
-  })
-  .then(function () {
-    console.log('promise2')
-  })
+// Promise.resolve()
+//   .then(function () {
+//     console.log('promise1')
+//   })
+//   .then(function () {
+//     console.log('promise2')
+//   })
 
-console.log('script end')
+// console.log('script end')
 
 // Own map arr function
 Array.prototype.mymap = function (callback) {
   const resultArray = []
-  for (let index = 0; index < this.length; index++) {
-    resultArray.push(callback(this[index], index, this))
+  for (let i = 0; i < this.length; i++) {
+    resultArray.push(callback(this[i], i, this))
   }
   return resultArray
 }
+
+// Сумма всех вершин дерева
+const binaryTree = {
+  value: 1,
+
+  left: {
+    value: 10,
+    left: {
+      value: 45,
+      left: {
+        value: 20,
+      },
+      right: {
+        value: 1,
+      },
+    },
+    right: {
+      value: 55,
+    },
+  },
+
+  right: {
+    value: 19,
+    left: {
+      value: 4,
+    },
+    right: {
+      value: 5,
+    },
+  },
+}
+
+const sumTree = (tree) => {
+  let count = tree.value
+  if (tree.left) {
+    count = count + sumTree(tree.left)
+  }
+  if (tree.right) {
+    count = count + sumTree(tree.right)
+  }
+
+  return count
+}
+
+//console.log(sumTree(binaryTree)) // 160
+
+/*###### Из массива в объект ######*/
+var arr4 = [
+  { name: 'width', value: 10 },
+  { name: 'height', value: 20 },
+]
+
+function getObj(arr) {
+  var obj = {}
+
+  arr.forEach(function (item) {
+    obj[item.name] = item.value
+  })
+
+  return obj
+}
+//console.log(getObj(arr4)) // {width: 10, height: 20}
+/*###################################*/
+
+/*###### В массиве парных положительных чисел найти непарное число ######*/
+function findWithoutPair(arr) {
+  const col = new Set()
+
+  for (let i = 0; i < arr.length; i++) {
+    if (!col.has(arr[i])) {
+      col.add(arr[i])
+    } else {
+      col.delete(arr[i])
+    }
+  }
+
+  return [...col][0]
+}
+
+//console.log(findWithoutPair([1, 8, 4, 5, 1, 4, 8])) // 5
+/*###################################*/
+
+/*###### В массиве парных положительных чисел найти непарное число ######*/
+// function removeDuplicate(arr) {
+//   return [...new Set(arr)]
+// }
+
+function removeDuplicate(arr) {
+  return [...new Set(arr)]
+}
+
+//console.log(removeDuplicate([1, 8, 4, 5, 1, 4, 8])) // 5
+/*###################################*/
+
+var search = function (nums, target) {
+  for (var i = 0; i < nums.length; i++) {
+    if (nums[i] === target) {
+      return i
+    } else {
+      return -1
+    }
+  }
+}
+
+console.log(search([-1, 0, 3, 5, 9, 12], 9))
