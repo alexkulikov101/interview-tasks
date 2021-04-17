@@ -124,3 +124,32 @@ function LegoBatMan(name){
 
 extend (LegoBatMan, Legoman)
 /*#############################*/
+
+/*############ My Reduce #################*/
+Array.prototype.myReduce = function (callback, initialValue) {
+  if (this == null) {
+      throw  TypeError("Array.prototype.reduce called on null or undefined");
+  }
+
+  if (typeof callback !== "function") {
+     throw TypeError(`${callback} is not a function`);
+  }
+
+  let acc = arguments.length === 1 ? this[0] : initialValue;
+  let start = arguments.length === 1 ? 1 : 0;
+
+  const length = this.length;
+
+  for (let i = start; i < length; i++) {
+    acc = callback(acc, this[i], i, this);
+  }
+
+  return acc;
+};
+
+// console.log(
+//   [1, 2, 3, 4, 5].myReduce((acc, elem, index, arr) => {
+//     return acc + elem;
+//   }, 0)
+// ); // => 15
+/*#############################*/
