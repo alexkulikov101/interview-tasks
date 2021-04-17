@@ -213,91 +213,6 @@ function binarySearch(arr, item) {
 
 //console.log(binarySearch(arrSort, 5))
 
-/*###### Selection sort / Сортировка выбором  ######*/
-function selectionSort(arr) {
-  for (let i = 0; i < arr.length - 1; i++) {
-    let minIndex = i
-    for (let j = i + 1; j < arr.length; j++) {
-      if (arr[j] < arr[minIndex]) {
-        minIndex = j
-      }
-    }
-
-    let swap = arr[i]
-    arr[i] = arr[minIndex]
-    arr[minIndex] = swap
-  }
-  return arr
-}
-
-//console.log(selectionSort(arr))
-
-/*###### Quick Sort ######*/
-function quickSort(arr) {
-  if (arr.length < 2) return arr
-  let left = []
-  let right = []
-  let p = arr[0]
-  for (let i = 1; i < arr.length; i++) {
-    if (arr[i] < p) {
-      left.push(arr[i])
-    } else {
-      right.push(arr[i])
-    }
-  }
-
-  return quickSort(left).concat(p, quickSort(right))
-}
-
-//console.log("quickSort", quickSort([6, 34, 8, 1, 41, 59, 764, 3]));
-
-/*###### Bubble sort ######*/
-function bubbleSort(arr) {
-  for (let i = 0; i < arr.length - 1; i++) {
-    for (let j = 0; j < arr.length; j++) {
-      if (arr[j - 1] > arr[j]) {
-        let swap = arr[j - 1]
-        arr[j - 1] = arr[j]
-        arr[j] = swap
-      }
-    }
-  }
-
-  return arr
-}
-//console.log(bubbleSort(arr))
-
-/*###### Merge Sort ######*/
-function merge(left, right) {
-  //Вспомогательная функция.
-  let result = []
-
-  while (left.length > 0 && right.length > 0) {
-    if (left[0] < right[0]) {
-      result.push(left.shift())
-    } else {
-      result.push(right.shift())
-    }
-  }
-
-  return result.concat(left, right)
-}
-
-function mergeSort(array) {
-  //Функция сортировки слиянияем.
-  if (array.length < 2) {
-    return array
-  }
-
-  let middle = Math.floor(array.length / 2)
-  let left = array.slice(0, middle)
-  let right = array.slice(middle)
-
-  return merge(mergeSort(left), mergeSort(right))
-}
-
-//console.log('mergeSort', mergeSort([6, 34, 8, 1, 41, 59, 764, 3]))
-
 // Benary Search Tree
 function workWithBST() {
   // Вспомогательный класс
@@ -654,3 +569,115 @@ const arr = [1, 2, 3, [4, 5], [6, [7]], [8, 9]]
 //console.log(getDataFromSecurityNumber(arr, 2)) // [7]
 //console.log(getDataFromSecurityNumber(arr, 3)) // []
 /*###################################*/
+/*######
+Согласно григорианскому календарю,
+I век н. э. начался 1 января 1 года и закончился 31 декабря 100 года.
+II век начался в 101 году, III век — в 201 и т. д.
+нужно написать функцию, которая возвращает век, которому соответствует заданный год
+ ######*/
+function centuryFromYear(year) {
+  return Math.ceil(year / 100)
+}
+
+centuryFromYear(1705) // 18
+centuryFromYear(1900) // 19
+centuryFromYear(1601) // 17
+centuryFromYear(2000) // 20
+/*###################################*/
+
+/*######
+ Есть два сортированных массива с числами.
+ Нужно написать функцию, которая возвращает новый массив,
+ содержащий элементы, которые встречаются в обоих массивах.
+######*/
+function findEqualElements(arr1, arr2) {
+  const res = arr1.filter((element) => arr2.includes(element))
+
+  return console.log(res)
+}
+
+// Примеры
+findEqualElements([1, 2, 3], [2]) // => [2]
+findEqualElements([2], [1, 2, 3]) // => [2]
+findEqualElements([1, 2, 2, 3], [2, 2, 2, 2]) // => [2, 2]
+/*###################################*/
+
+/***************************/
+// var n = 1;
+
+// function f(n) {
+//   n = 3;
+// }
+// f(n);
+
+// console.log(n); // 1 в функцию попал примитив и мы сделали копию этого n
+/***************************/
+
+// var obj = { a: 1 };
+
+// function f1(o) {
+//   o.a = 5;
+// }
+// f1(obj);
+
+// console.log(obj); // { a: 5 }
+/***************************/
+
+// var obj = { a: 1 };
+
+// function f2(o) {
+//   o = { hello: 1 };
+// }
+
+// f2(obj);
+
+// console.log(obj); // { a: 1 };
+
+/*#######################################*/
+// Что будет в консоли после выполнения фрагмента кода?
+
+var i = 10
+var array = []
+
+while (i--) {
+  array.push(function () {
+    return i + i
+  })
+}
+
+console.log([
+  array[0](), // -2
+  array[1](), // -2
+])
+/*#######################################*/
+
+/*#########  queueTime ###################*/
+function queueTime(customers, n) {
+  const arr = new Array(n).fill(0)
+
+  for (let i = 0; i < customers.length; i++) {
+    const minIndex = arr.indexOf(Math.min(...arr))
+    arr[minIndex] = arr[minIndex] + customers[i]
+  }
+
+  return Math.max(...arr)
+}
+
+//console.log(queueTime([5, 3, 4], 1)); // => 12
+//console.log(queueTime([10, 2, 3, 3], 2)); // => 10
+//console.log(queueTime([2, 3, 10], 2)); // => 12
+//console.log(queueTime([16, 14, 10, 3, 13, 9, 8, 19, 18, 20, 3, 7, 4, 16, 3], 6)); //=> 32
+/*#######################################*/
+
+/*#######################################*/
+let inc = (function () {
+  let count = 0
+  return function () {
+    return (count = count + 1)
+  }
+})()
+
+console.log(inc())
+console.log(inc())
+console.log(inc())
+/*#######################################*/
