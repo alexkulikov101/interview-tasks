@@ -640,3 +640,16 @@ function queueTime(customers, n) {
 //console.log(queueTime([2, 3, 10], 2)); // => 12
 //console.log(queueTime([16, 14, 10, 3, 13, 9, 8, 19, 18, 20, 3, 7, 4, 16, 3], 6)); //=> 32
 /*#######################################*/
+
+/*#######################################*/
+let inc = (function () {
+  let count = 0
+  return function () {
+    return (count = count + 1)
+  }
+})()
+
+console.log(inc())
+console.log(inc())
+console.log(inc())
+/*#######################################*/
