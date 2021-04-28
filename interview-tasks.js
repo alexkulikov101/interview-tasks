@@ -681,3 +681,75 @@ console.log(inc())
 console.log(inc())
 console.log(inc())
 /*#######################################*/
+
+/*################## Последовательность скобок #####################*/
+function correctBrackets(brs) {
+  let obj = {
+    '{': '}',
+    '[': ']',
+    '<': '>',
+    '(': ')',
+  }
+
+  let stack = []
+  let res = ''
+
+  for (let i = 0; i < brs.length; i++) {
+    let current = brs[i]
+    if (obj[current]) {
+      stack.push(current)
+    } else {
+      if (stack.length === 0) return null
+
+      const br = stack.pop()
+      current = obj[br]
+    }
+
+    res = res + current
+  }
+
+  if (stack.length > 0) return null
+
+  return res
+}
+
+//console.log(correctBrackets("[}")); // "[]");
+//console.log(correctBrackets("[()}")); // "[()]");
+//console.log(correctBrackets("[[[)])")); // "[[[]]]");
+//console.log(correctBrackets("<{[(>}])")); // "<{[()]}>");
+//console.log(correctBrackets("]]")); // null);
+//console.log(correctBrackets("[[[))")); // null);
+//console.log(correctBrackets("{((])]")); // "{(())}");
+/*#######################################*/
+
+/*#######################################*/
+const queue = [888, 555, 333, 999]
+
+const getData = (data, cb) =>
+  setTimeout(() => {
+    console.log(`success  ${data}`)
+    cb()
+  }, data)
+
+const mapQueue = async (arr) => {
+  for (let i = 0; i < arr.length; i++) {
+    await new Promise((resolve) => {
+      getData(arr[i], resolve)
+    })
+  }
+}
+
+//******************************************
+
+const mapQueue = async (arr) => {
+  for (let i = 0; i < arr.length; i++) {
+    await new Promise((resolve) => {
+      setTimeout(() => {
+        resolve(console.log(`success  ${arr[i]}`))
+      }, arr[i])
+    })
+  }
+}
+
+//mapQueue(queue)
+/*#######################################*/
