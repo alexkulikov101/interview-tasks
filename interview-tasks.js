@@ -753,3 +753,13 @@ const mapQueue = async (arr) => {
 
 //mapQueue(queue)
 /*#######################################*/
+
+/*###############  25 + 12 + 6 + 3 + 1 = 47  ########################*/
+const getNum = (num) => {
+  if (num === 1) return num
+
+  return num + getNum(Math.floor(num / 2))
+}
+
+//console.log(getNum(25)); //47
+/*#######################################*/
